@@ -4,11 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list/pages/add_todo.dart';
 import 'package:todo_list/pages/update_todo.dart';
 import 'package:todo_list/services/shared_preferences.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'theme/theme.dart';
 import 'theme/theme_provider.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
@@ -46,7 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    initializationSplashScreen();
     initSharedPreferences();
+  }
+
+  void initializationSplashScreen() async {
+    await Future.delayed(const Duration(seconds: 2));
+    FlutterNativeSplash.remove();
   }
 
   Future<void> initSharedPreferences() async {
